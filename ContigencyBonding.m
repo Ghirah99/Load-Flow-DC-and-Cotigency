@@ -9,7 +9,7 @@ DCPowerFlow;
 %CLOSE//////////////////////////Perhitungan theta
 %OPEN //////////////////////////Perhitungan f0pq
 
-Bonding = zeros(Jumlah_Bus, 10);
+Bonding = zeros(Jumlah_Bus, 12);
 
 
 for i=1:Jumlah_Bus
@@ -102,7 +102,7 @@ disp('>>Nilai ?fpqmaxXpq adalah nilai di kolom 15<<')
 disp(' ')
 saluran_yang_lepas_N1 = input('- Masukan saluran N-1 yang lepas = saluran ');
 saluran_wilayah_N3 = input('- Masukan saluran N-3 = saluran ');
-if linedata(saluran_wilayah_N3,14)<linedata(saluran_wilayah_N3,9);
+if Bonding(saluran_wilayah_N3,9)<Bonding(saluran_wilayah_N3,4);
     disp('=>Saluran di subsistem N-2 aman dari overload ')
     program=0;
 else
@@ -115,7 +115,7 @@ while program==1
     disp(' ')
     saluran_yang_lepas_N1 = input('- Masukan saluran N-1 yang lepas = saluran');
     saluran_wilayah_N3 = input('- Masukan saluran N-3 = saluran');
-    if linedata(saluran_wilayah_N3,14)<linedata(saluran_wilayah_N3,9);
+    if Bonding(saluran_wilayah_N3,9)<Bonding(saluran_wilayah_N3,4);
         disp('=>Saluran di subsistem N-2 aman dari overload ')
         program=0;
     else
@@ -127,15 +127,15 @@ while program==1
 end
 for i=1:Jumlah_Bus
     if ~(i==saluran_yang_lepas_N1)
-        from_bus_kena = linedata(i,2);
-        to_bus_kena = linedata(i,3);
+        from_bus_kena = linedata(i,1);
+        to_bus_kena = linedata(i,2);
         reaktansi_lepas = linedata(saluran_yang_lepas_N1,4);
         reaktansi_kena = linedata(i,4);
-        from_bus_lepas = linedata(saluran_yang_lepas_N1,2);
-        to_bus_lepas = linedata(saluran_yang_lepas_N1,3);
-        base_flow_kena = abs(linedata(i,6));
-        base_flow_lepas = abs(linedata(saluran_yang_lepas_N1,6));
-        linedata(i,16) = (reaktansi_lepas/reaktansi_kena*...
+        from_bus_lepas = linedata(saluran_yang_lepas_N1,1);
+        to_bus_lepas = linedata(saluran_yang_lepas_N1,2);
+        base_flow_kena = abs(Bonding(i,1));
+        base_flow_lepas = abs(Bonding(saluran_yang_lepas_N1,1));
+        Bonding(i,11) = (reaktansi_lepas/reaktansi_kena*...
             (X(from_bus_kena,from_bus_lepas)-...
             X(to_bus_kena,from_bus_lepas)-...
             X(from_bus_kena,to_bus_lepas)+...
@@ -143,7 +143,8 @@ for i=1:Jumlah_Bus
             X(from_bus_lepas,from_bus_lepas)+...
             X(to_bus_lepas,to_bus_lepas)-...
             2*(X(from_bus_lepas,to_bus_lepas)));
-        faktor_d = linedata(i,16);
-        linedata(i,17) = base_flow_kena + faktor_d*base_flow_lepas;
+        faktor_d = Bonding(i,11);
+        Bonding(i,12) = base_flow_kena + faktor_d*base_flow_lepas;
     end
 end
+
