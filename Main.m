@@ -6,16 +6,16 @@ MatrixB;
 DCLoadFlow;
 ContigencyBonding;
 
- C = Bonding(:,9)<Bonding(:,4);
+ C = Bonding(:,13);
 % C = abs(Bonding(:,12)*100) > linedata(:,7);
 
 fast = fft(C);
-realFast = real(fast);
+realFast = abs(fast);
 
 
 
 figure
-stem(real(fast))
+stem(realFast)
 title ('FFT Contigency Bounding')
 xlabel('Saluran')
 ylabel('delta theta I-J ')

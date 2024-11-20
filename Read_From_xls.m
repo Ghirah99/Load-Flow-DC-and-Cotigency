@@ -20,6 +20,9 @@ linedata = data3(4:44,:);
 cost =[Cost_c Cost_b Cost_a];
 mwlimits = [Pmin Pmax];
 Jumlah_Bus = size(busdata(:,1),1);
+Jumlah_Saluran = length(linedata);
+MW_Rating = (linedata(:,7).*0.8)
+
 
 % Menampilkan data yang diambil
 %disp('Data yang diambil dari file Excel:');

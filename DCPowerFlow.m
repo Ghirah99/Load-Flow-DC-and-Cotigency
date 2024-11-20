@@ -1,6 +1,6 @@
-% clc
-% clear
-% Read_From_xls;
+clc
+clear
+Read_From_xls;
 % Analisis Aliran Daya DC Menggunakan Metode Linear untuk IEEE 30 Bus
 
 % Data IEEE 30 Bus
@@ -49,12 +49,13 @@ for i = 1:num_bus
         P(i) = busdata(i, 5) - busdata(i, 7);
     end
 end
-
+% Daya = P/100;
 X = inv(B);
 %% Menghitung sudut tegangan (theta) menggunakan metode DC power flow
 theta = X*P;
+% theta = X*Daya;
 
-% % Output hasil
+% Output hasil
 % disp('Bus | Theta (rad)');
 % disp(theta);
 fprintf('SOLUTION:\n');
@@ -68,6 +69,6 @@ disp('Line Flow Results:');
 for i = 1:num_line
     from = linedata(i, 1);
     to = linedata(i, 2);
-    flow = (theta(from) - theta(to)) / linedata(i, 4);
+    flow = (theta(from) - theta(to)) / linedata(i, 4)/100;
     fprintf('Line %d-%d: %f MW\n', from, to, flow);
 end
