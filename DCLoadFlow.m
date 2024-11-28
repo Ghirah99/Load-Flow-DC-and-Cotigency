@@ -19,6 +19,7 @@ Pr=Ppom;
 c=linsolve(-Br,Pr);
 teta=[];
 teta(1)=0; %reference
+% teta(257)=0; %reference 300 Bus
 
 for i=2:length(Pr)+1
     teta(i)=c(i-1);
